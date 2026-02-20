@@ -44,9 +44,12 @@ app.use((err, req, res, next) => {
 });
 
 // ─── Start Server ─────────────────────────────────────────────────────────────
-app.listen(PORT, () => {
-    console.log(`\n🏦 Kodbank running on http://localhost:${PORT}`);
-    console.log(`📋 Register : http://localhost:${PORT}/register.html`);
-    console.log(`🔑 Login    : http://localhost:${PORT}/login.html`);
-    console.log(`📊 Dashboard: http://localhost:${PORT}/dashboard.html\n`);
-});
+if (require.main === module) {
+    app.listen(PORT, () => {
+        console.log(`\n🏦 Kodbank running on http://localhost:${PORT}`);
+        console.log(`📋 Register : http://localhost:${PORT}/register.html`);
+        console.log(`🔑 Login    : http://localhost:${PORT}/login.html`);
+        console.log(`📊 Dashboard: http://localhost:${PORT}/dashboard.html\n`);
+    });
+}
+module.exports = app;

@@ -1,0 +1,860 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Kodbank — Dashboard</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap"
+        rel="stylesheet" />
+    <style>
+        *,
+        *::before,
+        *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        :root {
+            --blue: #4f8ef7;
+            --purple: #7c5cfc;
+            --cyan: #00d4ff;
+            --gold: #ffd166;
+            --teal: #06d6a0;
+            --dark: #070d1a;
+            --dark2: #0e1628;
+            --card: rgba(255, 255, 255, 0.055);
+            --border: rgba(255, 255, 255, 0.1);
+            --text: #e8eaf6;
+            --sub: #8892b0;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--dark);
+            min-height: 100vh;
+            color: var(--text);
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        /* ── Background orbs ─────────────────────────────── */
+        .orb {
+            position: fixed;
+            border-radius: 50%;
+            filter: blur(120px);
+            pointer-events: none;
+            animation: drift 10s ease-in-out infinite alternate;
+        }
+
+        .orb-1 {
+            width: 500px;
+            height: 500px;
+            background: rgba(124, 92, 252, 0.18);
+            top: -100px;
+            left: -100px;
+        }
+
+        .orb-2 {
+            width: 400px;
+            height: 400px;
+            background: rgba(0, 212, 255, 0.12);
+            bottom: -80px;
+            right: -80px;
+            animation-delay: -5s;
+        }
+
+        .orb-3 {
+            width: 320px;
+            height: 320px;
+            background: rgba(79, 142, 247, 0.1);
+            top: 40%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            animation-delay: -2.5s;
+        }
+
+        @keyframes drift {
+            to {
+                transform: translate(40px, 40px);
+            }
+        }
+
+        .orb-3 {
+            animation: drift2 12s ease-in-out infinite alternate;
+        }
+
+        @keyframes drift2 {
+            to {
+                transform: translate(calc(-50% + 40px), calc(-50% + 40px));
+            }
+        }
+
+        /* ── Top Bar ─────────────────────────────────────── */
+        .topbar {
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            background: rgba(7, 13, 26, 0.8);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--border);
+            padding: 0 32px;
+            height: 64px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .topbar-left {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .brand-icon {
+            width: 38px;
+            height: 38px;
+            background: linear-gradient(135deg, var(--purple), var(--blue));
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            box-shadow: 0 4px 14px rgba(124, 92, 252, 0.5);
+        }
+
+        .brand-name {
+            font-size: 20px;
+            font-weight: 800;
+            background: linear-gradient(90deg, var(--blue), var(--cyan));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .topbar-right {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .user-pill {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(255, 255, 255, 0.07);
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            padding: 6px 14px;
+            font-size: 13px;
+            font-weight: 500;
+        }
+
+        .user-avatar {
+            width: 26px;
+            height: 26px;
+            background: linear-gradient(135deg, var(--purple), var(--cyan));
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 11px;
+            font-weight: 700;
+            color: #fff;
+        }
+
+        .btn-logout {
+            background: rgba(255, 72, 66, 0.12);
+            border: 1px solid rgba(255, 72, 66, 0.25);
+            border-radius: 10px;
+            padding: 7px 14px;
+            color: #ff6b6b;
+            font-size: 13px;
+            font-weight: 600;
+            font-family: 'Inter', sans-serif;
+            cursor: pointer;
+            transition: background 0.2s, transform 0.2s;
+        }
+
+        .btn-logout:hover {
+            background: rgba(255, 72, 66, 0.2);
+            transform: translateY(-1px);
+        }
+
+        /* ── Main ────────────────────────────────────────── */
+        .main {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 48px 24px 80px;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* ── Greeting ────────────────────────────────────── */
+        .greeting {
+            margin-bottom: 40px;
+        }
+
+        .greeting-label {
+            font-size: 13px;
+            color: var(--sub);
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            margin-bottom: 6px;
+        }
+
+        .greeting-name {
+            font-size: clamp(28px, 5vw, 42px);
+            font-weight: 800;
+            background: linear-gradient(90deg, var(--text) 0%, var(--cyan) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .greeting-sub {
+            font-size: 15px;
+            color: var(--sub);
+            margin-top: 8px;
+        }
+
+        /* ── Stats row ───────────────────────────────────── */
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 16px;
+            margin-bottom: 36px;
+        }
+
+        .stat-card {
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 18px;
+            padding: 22px 24px;
+            backdrop-filter: blur(16px);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.4);
+        }
+
+        .stat-label {
+            font-size: 12px;
+            color: var(--sub);
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            margin-bottom: 8px;
+        }
+
+        .stat-value {
+            font-size: 22px;
+            font-weight: 700;
+        }
+
+        .stat-icon {
+            font-size: 28px;
+            margin-bottom: 10px;
+        }
+
+        /* ── Banking Card ────────────────────────────────── */
+        .banking-card {
+            position: relative;
+            background: linear-gradient(135deg, #1a1060 0%, #0d1c4d 50%, #0a2a3d 100%);
+            border-radius: 24px;
+            padding: 36px 36px 32px;
+            margin-bottom: 36px;
+            overflow: hidden;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
+        .banking-card::before {
+            content: '';
+            position: absolute;
+            top: -60px;
+            right: -60px;
+            width: 260px;
+            height: 260px;
+            background: radial-gradient(circle, rgba(124, 92, 252, 0.4), transparent 70%);
+            border-radius: 50%;
+        }
+
+        .banking-card::after {
+            content: '';
+            position: absolute;
+            bottom: -40px;
+            left: 20px;
+            width: 200px;
+            height: 200px;
+            background: radial-gradient(circle, rgba(0, 212, 255, 0.2), transparent 70%);
+            border-radius: 50%;
+        }
+
+        .card-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 32px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .card-bank-name {
+            font-size: 15px;
+            font-weight: 700;
+            opacity: 0.8;
+            letter-spacing: 0.06em;
+        }
+
+        .card-chip {
+            font-size: 30px;
+        }
+
+        .card-number {
+            font-size: 19px;
+            letter-spacing: 0.18em;
+            font-weight: 400;
+            color: rgba(255, 255, 255, 0.7);
+            margin-bottom: 28px;
+            position: relative;
+            z-index: 1;
+            font-family: 'Courier New', monospace;
+        }
+
+        .card-bottom {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+            position: relative;
+            z-index: 1;
+        }
+
+        .card-holder-label {
+            font-size: 10px;
+            opacity: 0.6;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            margin-bottom: 4px;
+        }
+
+        .card-holder-name {
+            font-size: 16px;
+            font-weight: 600;
+            letter-spacing: 0.06em;
+        }
+
+        .card-network {
+            font-size: 32px;
+        }
+
+        /* ── Balance Section ─────────────────────────────── */
+        .balance-section {
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 24px;
+            padding: 40px;
+            backdrop-filter: blur(16px);
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .balance-section-title {
+            font-size: 17px;
+            font-weight: 600;
+            color: var(--sub);
+            margin-bottom: 8px;
+        }
+
+        .balance-section-sub {
+            font-size: 13px;
+            color: var(--sub);
+            opacity: 0.7;
+            margin-bottom: 32px;
+        }
+
+        /* Check Balance Button */
+        .btn-balance {
+            position: relative;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            padding: 18px 44px;
+            background: linear-gradient(135deg, var(--purple), var(--blue), var(--cyan));
+            background-size: 200% 200%;
+            animation: gradientShift 4s ease infinite;
+            border: none;
+            border-radius: 50px;
+            color: #fff;
+            font-size: 17px;
+            font-weight: 700;
+            font-family: 'Inter', sans-serif;
+            cursor: pointer;
+            transition: transform 0.25s, box-shadow 0.3s;
+            box-shadow: 0 8px 32px rgba(124, 92, 252, 0.55);
+            overflow: hidden;
+        }
+
+        @keyframes gradientShift {
+            0% {
+                background-position: 0% 50%;
+            }
+
+            50% {
+                background-position: 100% 50%;
+            }
+
+            100% {
+                background-position: 0% 50%;
+            }
+        }
+
+        .btn-balance:hover {
+            transform: translateY(-3px) scale(1.03);
+            box-shadow: 0 16px 50px rgba(124, 92, 252, 0.8);
+        }
+
+        .btn-balance:active {
+            transform: translateY(0) scale(1);
+        }
+
+        .btn-balance .pulse-ring {
+            position: absolute;
+            inset: 0;
+            border-radius: 50px;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+        }
+
+        @keyframes pulse {
+
+            0%,
+            100% {
+                opacity: 0.4;
+                transform: scale(1);
+            }
+
+            50% {
+                opacity: 0;
+                transform: scale(1.08);
+            }
+        }
+
+        .btn-balance .btn-icon {
+            font-size: 20px;
+        }
+
+        .btn-balance .spinner {
+            display: none;
+            width: 20px;
+            height: 20px;
+            border: 2px solid rgba(255, 255, 255, 0.4);
+            border-top-color: #fff;
+            border-radius: 50%;
+            animation: spin 0.7s linear infinite;
+        }
+
+        .btn-balance.loading .btn-icon,
+        .btn-balance.loading .btn-text {
+            display: none;
+        }
+
+        .btn-balance.loading .spinner {
+            display: block;
+        }
+
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        /* Balance Display */
+        .balance-display {
+            display: none;
+            margin-top: 36px;
+            animation: revealBalance 0.8s cubic-bezier(0.22, 1, 0.36, 1);
+        }
+
+        .balance-display.visible {
+            display: block;
+        }
+
+        @keyframes revealBalance {
+            from {
+                opacity: 0;
+                transform: scale(0.85) translateY(20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: scale(1) translateY(0);
+            }
+        }
+
+        .balance-card {
+            background: linear-gradient(135deg, rgba(6, 214, 160, 0.1), rgba(0, 212, 255, 0.1));
+            border: 1.5px solid rgba(6, 214, 160, 0.35);
+            border-radius: 20px;
+            padding: 36px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .balance-card::before {
+            content: '';
+            position: absolute;
+            top: -30px;
+            right: -30px;
+            width: 160px;
+            height: 160px;
+            background: radial-gradient(circle, rgba(6, 214, 160, 0.2), transparent 70%);
+            border-radius: 50%;
+        }
+
+        .balance-label {
+            font-size: 14px;
+            color: rgba(255, 255, 255, 0.65);
+            margin-bottom: 12px;
+            font-weight: 500;
+            letter-spacing: 0.04em;
+        }
+
+        .balance-amount {
+            font-size: clamp(36px, 7vw, 56px);
+            font-weight: 900;
+            background: linear-gradient(90deg, var(--teal), var(--cyan));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            letter-spacing: -0.02em;
+        }
+
+        .balance-currency-symbol {
+            font-size: 0.6em;
+            vertical-align: middle;
+        }
+
+        .balance-success-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background: rgba(6, 214, 160, 0.15);
+            border: 1px solid rgba(6, 214, 160, 0.3);
+            border-radius: 20px;
+            padding: 5px 14px;
+            font-size: 12px;
+            font-weight: 600;
+            color: var(--teal);
+            margin-top: 14px;
+        }
+
+        .balance-error {
+            display: none;
+            background: rgba(255, 72, 66, 0.12);
+            border: 1px solid rgba(255, 72, 66, 0.3);
+            border-radius: 14px;
+            padding: 16px 20px;
+            color: #ff6b6b;
+            font-size: 14px;
+            font-weight: 500;
+            margin-top: 24px;
+            animation: fadeIn 0.3s ease;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+
+            to {
+                opacity: 1;
+            }
+        }
+
+        /* ── Confetti ────────────────────────────────────── */
+        #confetti-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 9999;
+        }
+
+        /* ── Footer ──────────────────────────────────────── */
+        .footer {
+            text-align: center;
+            padding-top: 48px;
+            color: var(--sub);
+            font-size: 12px;
+        }
+
+        @media (max-width: 640px) {
+            .stats {
+                grid-template-columns: 1fr;
+            }
+
+            .topbar {
+                padding: 0 16px;
+            }
+
+            .main {
+                padding: 28px 16px 60px;
+            }
+
+            .banking-card,
+            .balance-section {
+                padding: 24px 20px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Background orbs -->
+    <div class="orb orb-1"></div>
+    <div class="orb orb-2"></div>
+    <div class="orb orb-3"></div>
+
+    <!-- Confetti canvas -->
+    <canvas id="confetti-canvas"></canvas>
+
+    <!-- Top bar -->
+    <header class="topbar">
+        <div class="topbar-left">
+            <div class="brand-icon">🏦</div>
+            <div class="brand-name">Kodbank</div>
+        </div>
+        <div class="topbar-right">
+            <div class="user-pill">
+                <div class="user-avatar" id="userAvatar">K</div>
+                <span id="userGreetTopbar">Account</span>
+            </div>
+            <button class="btn-logout" id="logoutBtn">Sign Out</button>
+        </div>
+    </header>
+
+    <main class="main">
+
+        <!-- Greeting -->
+        <div class="greeting">
+            <div class="greeting-label">👋 Good day</div>
+            <div class="greeting-name" id="greetName">Welcome</div>
+            <div class="greeting-sub">Your personal banking dashboard · Secure · Private · Fast</div>
+        </div>
+
+        <!-- Stats -->
+        <div class="stats">
+            <div class="stat-card">
+                <div class="stat-icon">🔒</div>
+                <div class="stat-label">Account Type</div>
+                <div class="stat-value" style="font-size:17px; color:#7c5cfc;">Customer</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon">🏦</div>
+                <div class="stat-label">Bank</div>
+                <div class="stat-value" style="font-size:17px; color:#4f8ef7;">Kodbank</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon">✅</div>
+                <div class="stat-label">Status</div>
+                <div class="stat-value" style="font-size:17px; color:#06d6a0;">Active</div>
+            </div>
+        </div>
+
+        <!-- Banking card -->
+        <div class="banking-card">
+            <div class="card-top">
+                <div class="card-bank-name">KODBANK</div>
+                <div class="card-chip">💳</div>
+            </div>
+            <div class="card-number" id="cardNumber">•••• &nbsp;•••• &nbsp;•••• &nbsp;4296</div>
+            <div class="card-bottom">
+                <div>
+                    <div class="card-holder-label">Account Holder</div>
+                    <div class="card-holder-name" id="cardHolderName">——</div>
+                </div>
+                <div class="card-network">🌐</div>
+            </div>
+        </div>
+
+        <!-- Balance section -->
+        <div class="balance-section">
+            <div class="balance-section-title">💰 Account Balance</div>
+            <div class="balance-section-sub">Click below to securely fetch your real-time balance</div>
+
+            <button class="btn-balance" id="checkBalanceBtn">
+                <div class="pulse-ring"></div>
+                <span class="btn-icon">💎</span>
+                <span class="btn-text">Check Balance</span>
+                <div class="spinner"></div>
+            </button>
+
+            <!-- Balance result -->
+            <div class="balance-display" id="balanceDisplay">
+                <div class="balance-card">
+                    <div class="balance-label">Your balance is :</div>
+                    <div class="balance-amount" id="balanceAmount">
+                        <span class="balance-currency-symbol">₹</span>
+                        <span id="balanceValue">—</span>
+                    </div>
+                    <div class="balance-success-badge">✅ Balance verified from bank server</div>
+                </div>
+            </div>
+
+            <!-- Error -->
+            <div class="balance-error" id="balanceError"></div>
+        </div>
+
+        <div class="footer">© 2024 Kodbank · Secured by 256-bit AES Encryption</div>
+
+    </main>
+
+    <script>
+        const API = 'http://localhost:5000';
+
+        // ── Load User ─────────────────────────────────────────
+        async function loadUser() {
+            // Try sessionStorage first (set during login redirect)
+            let username = sessionStorage.getItem('kb_user');
+
+            if (!username) {
+                try {
+                    const res = await fetch(`${API}/api/auth/me`, { credentials: 'include' });
+                    if (res.ok) {
+                        const data = await res.json();
+                        username = data.user?.username;
+                        if (username) sessionStorage.setItem('kb_user', username);
+                    } else {
+                        // Not authenticated
+                        window.location.href = 'login.html';
+                        return;
+                    }
+                } catch (e) {
+                    // If server is unreachable but we have sessionStorage fallback, continue
+                    if (!username) { window.location.href = 'login.html'; return; }
+                }
+            }
+
+            if (username) {
+                const display = username.charAt(0).toUpperCase() + username.slice(1);
+                document.getElementById('greetName').textContent = `Hello, ${display} 👋`;
+                document.getElementById('userGreetTopbar').textContent = username;
+                document.getElementById('userAvatar').textContent = username.charAt(0).toUpperCase();
+                document.getElementById('cardHolderName').textContent = display.toUpperCase();
+            }
+        }
+
+        // ── Check Balance ─────────────────────────────────────
+        document.getElementById('checkBalanceBtn').addEventListener('click', async () => {
+            const btn = document.getElementById('checkBalanceBtn');
+            const display = document.getElementById('balanceDisplay');
+            const errorDiv = document.getElementById('balanceError');
+
+            btn.classList.add('loading');
+            btn.disabled = true;
+            display.classList.remove('visible');
+            errorDiv.style.display = 'none';
+
+            try {
+                const res = await fetch(`${API}/api/auth/balance`, { credentials: 'include' });
+                const data = await res.json();
+
+                if (res.ok && data.success) {
+                    // Format balance
+                    const formatted = new Intl.NumberFormat('en-IN').format(data.balance);
+                    document.getElementById('balanceValue').textContent = ' ' + formatted;
+                    display.classList.add('visible');
+                    launchConfetti();
+                } else if (res.status === 401) {
+                    errorDiv.textContent = '🔐 Session expired. Please login again.';
+                    errorDiv.style.display = 'block';
+                    setTimeout(() => { window.location.href = 'login.html'; }, 2000);
+                } else {
+                    errorDiv.textContent = data.message || 'Could not fetch balance.';
+                    errorDiv.style.display = 'block';
+                }
+            } catch (err) {
+                errorDiv.textContent = '⚠️ Cannot connect to server. Ensure backend is running on port 5000.';
+                errorDiv.style.display = 'block';
+            } finally {
+                btn.classList.remove('loading');
+                btn.disabled = false;
+            }
+        });
+
+        // ── Logout ────────────────────────────────────────────
+        document.getElementById('logoutBtn').addEventListener('click', async () => {
+            try {
+                await fetch(`${API}/api/auth/logout`, { method: 'POST', credentials: 'include' });
+            } catch (e) { }
+            sessionStorage.removeItem('kb_user');
+            window.location.href = 'login.html';
+        });
+
+        // ── Confetti ──────────────────────────────────────────
+        function launchConfetti() {
+            const canvas = document.getElementById('confetti-canvas');
+            const ctx = canvas.getContext('2d');
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+
+            const colors = ['#7c5cfc', '#4f8ef7', '#00d4ff', '#ffd166', '#06d6a0', '#ff6b9d', '#fff'];
+            const particles = Array.from({ length: 150 }, () => ({
+                x: Math.random() * canvas.width,
+                y: -20,
+                r: Math.random() * 7 + 3,
+                d: Math.random() * 150 + 50,
+                color: colors[Math.floor(Math.random() * colors.length)],
+                tilt: Math.random() * 10 - 10,
+                tiltAngle: Math.random() * 0.07,
+                tiltAngleInc: Math.random() * 0.07 + 0.05,
+                vx: Math.random() * 4 - 2,
+                vy: Math.random() * 3 + 2
+            }));
+
+            let angle = 0;
+            let frame = 0;
+            let done = false;
+
+            function draw() {
+                if (done) { ctx.clearRect(0, 0, canvas.width, canvas.height); return; }
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                angle += 0.01;
+                frame++;
+                if (frame > 200) { done = true; }
+
+                particles.forEach(p => {
+                    p.tiltAngle += p.tiltAngleInc;
+                    p.x += p.vx + Math.sin(angle) * 1.5;
+                    p.y += p.vy;
+                    p.tilt = Math.sin(p.tiltAngle) * 12;
+                    if (p.y > canvas.height) { p.y = -20; p.x = Math.random() * canvas.width; }
+                    ctx.beginPath();
+                    ctx.lineWidth = p.r;
+                    ctx.strokeStyle = p.color;
+                    ctx.moveTo(p.x + p.tilt + p.r / 4, p.y);
+                    ctx.lineTo(p.x + p.tilt, p.y + p.tilt + p.r / 4);
+                    ctx.stroke();
+                });
+
+                requestAnimationFrame(draw);
+            }
+            draw();
+            setTimeout(() => { done = true; }, 5000);
+        }
+
+        // ── Init ──────────────────────────────────────────────
+        loadUser();
+    </script>
+</body>
+
+</html>

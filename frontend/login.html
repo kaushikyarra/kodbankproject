@@ -1,0 +1,442 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Kodbank — Sign In</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap"
+        rel="stylesheet" />
+    <style>
+        *,
+        *::before,
+        *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        :root {
+            --blue: #4f8ef7;
+            --purple: #7c5cfc;
+            --cyan: #00d4ff;
+            --gold: #ffd166;
+            --dark: #0a0f1e;
+            --card: rgba(255, 255, 255, 0.06);
+            --border: rgba(255, 255, 255, 0.12);
+            --text: #e8eaf6;
+            --sub: #8892b0;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--dark);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            position: relative;
+        }
+
+        body::before,
+        body::after {
+            content: '';
+            position: fixed;
+            border-radius: 50%;
+            filter: blur(130px);
+            animation: floatOrb 9s ease-in-out infinite alternate;
+            pointer-events: none;
+        }
+
+        body::before {
+            width: 450px;
+            height: 450px;
+            background: radial-gradient(circle, rgba(79, 142, 247, 0.3), transparent 70%);
+            top: -80px;
+            right: -80px;
+        }
+
+        body::after {
+            width: 380px;
+            height: 380px;
+            background: radial-gradient(circle, rgba(124, 92, 252, 0.3), transparent 70%);
+            bottom: -60px;
+            left: -60px;
+            animation-delay: -4.5s;
+        }
+
+        @keyframes floatOrb {
+            to {
+                transform: translate(30px, 30px);
+            }
+        }
+
+        .page-wrap {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            min-height: 100vh;
+            padding: 40px 16px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .card {
+            background: var(--card);
+            backdrop-filter: blur(28px);
+            -webkit-backdrop-filter: blur(28px);
+            border: 1px solid var(--border);
+            border-radius: 28px;
+            padding: 52px 48px;
+            width: 100%;
+            max-width: 440px;
+            box-shadow: 0 32px 100px rgba(0, 0, 0, 0.6);
+            animation: slideUp 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(40px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 40px;
+        }
+
+        .brand-icon {
+            width: 44px;
+            height: 44px;
+            background: linear-gradient(135deg, var(--purple), var(--blue));
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 22px;
+            box-shadow: 0 4px 20px rgba(124, 92, 252, 0.6);
+        }
+
+        .brand-name {
+            font-size: 24px;
+            font-weight: 800;
+            background: linear-gradient(90deg, var(--blue), var(--cyan));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        h1 {
+            font-size: 28px;
+            font-weight: 700;
+            color: var(--text);
+            margin-bottom: 6px;
+        }
+
+        .subtitle {
+            font-size: 14px;
+            color: var(--sub);
+            margin-bottom: 38px;
+        }
+
+        .form-group {
+            position: relative;
+            margin-bottom: 24px;
+        }
+
+        .form-group input {
+            width: 100%;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1.5px solid rgba(255, 255, 255, 0.1);
+            border-radius: 14px;
+            padding: 20px 16px 8px;
+            color: var(--text);
+            font-size: 15px;
+            font-family: 'Inter', sans-serif;
+            outline: none;
+            transition: border-color 0.3s, box-shadow 0.3s, background 0.3s;
+        }
+
+        .form-group input:focus {
+            border-color: var(--blue);
+            background: rgba(79, 142, 247, 0.08);
+            box-shadow: 0 0 0 3px rgba(79, 142, 247, 0.2);
+        }
+
+        .form-group label {
+            position: absolute;
+            top: 50%;
+            left: 16px;
+            transform: translateY(-50%);
+            color: var(--sub);
+            font-size: 14px;
+            pointer-events: none;
+            transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .form-group input:focus+label,
+        .form-group input:not(:placeholder-shown)+label {
+            top: 10px;
+            transform: none;
+            font-size: 11px;
+            color: var(--blue);
+            font-weight: 600;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+        }
+
+        .form-group input::placeholder {
+            color: transparent;
+        }
+
+        .btn-submit {
+            width: 100%;
+            padding: 17px;
+            background: linear-gradient(135deg, var(--blue), var(--purple));
+            border: none;
+            border-radius: 14px;
+            color: #fff;
+            font-size: 16px;
+            font-weight: 700;
+            font-family: 'Inter', sans-serif;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+            transition: transform 0.2s, box-shadow 0.3s;
+            box-shadow: 0 8px 28px rgba(79, 142, 247, 0.5);
+            margin-top: 8px;
+        }
+
+        .btn-submit:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 14px 44px rgba(79, 142, 247, 0.7);
+        }
+
+        .btn-submit:active {
+            transform: translateY(0);
+        }
+
+        .btn-submit .btn-text {
+            display: inline-block;
+        }
+
+        .btn-submit .spinner {
+            display: none;
+            width: 20px;
+            height: 20px;
+            border: 2px solid rgba(255, 255, 255, 0.4);
+            border-top-color: #fff;
+            border-radius: 50%;
+            animation: spin 0.7s linear infinite;
+            margin: 0 auto;
+        }
+
+        .btn-submit.loading .btn-text {
+            display: none;
+        }
+
+        .btn-submit.loading .spinner {
+            display: block;
+        }
+
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        .message {
+            margin-top: 16px;
+            padding: 12px 16px;
+            border-radius: 10px;
+            font-size: 14px;
+            font-weight: 500;
+            display: none;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .message.success {
+            background: rgba(0, 214, 102, 0.12);
+            border: 1px solid rgba(0, 214, 102, 0.3);
+            color: #00d466;
+        }
+
+        .message.error {
+            background: rgba(255, 72, 66, 0.12);
+            border: 1px solid rgba(255, 72, 66, 0.3);
+            color: #ff4242;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(-6px);
+            }
+
+            to {
+                opacity: 1;
+                transform: none;
+            }
+        }
+
+        .register-link {
+            text-align: center;
+            margin-top: 26px;
+            font-size: 14px;
+            color: var(--sub);
+        }
+
+        .register-link a {
+            color: var(--blue);
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        .register-link a:hover {
+            text-decoration: underline;
+        }
+
+        .secure-note {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            margin-top: 20px;
+            font-size: 12px;
+            color: var(--sub);
+        }
+
+        /* decorative dots */
+        .dots {
+            display: flex;
+            gap: 6px;
+            margin-bottom: 28px;
+        }
+
+        .dot {
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+        }
+
+        .dot:nth-child(1) {
+            background: var(--purple);
+        }
+
+        .dot:nth-child(2) {
+            background: var(--blue);
+        }
+
+        .dot:nth-child(3) {
+            background: var(--cyan);
+        }
+    </style>
+</head>
+
+<body>
+    <div class="page-wrap">
+        <div class="card">
+            <div class="brand">
+                <div class="brand-icon">🏦</div>
+                <div class="brand-name">Kodbank</div>
+            </div>
+
+            <div class="dots">
+                <div class="dot"></div>
+                <div class="dot"></div>
+                <div class="dot"></div>
+            </div>
+
+            <h1>Welcome Back</h1>
+            <p class="subtitle">Sign in to your secure banking account</p>
+
+            <form id="loginForm" novalidate>
+                <div class="form-group">
+                    <input type="text" id="username" name="username" placeholder="Username" required
+                        autocomplete="username" />
+                    <label for="username">Username</label>
+                </div>
+                <div class="form-group">
+                    <input type="password" id="password" name="password" placeholder="Password" required
+                        autocomplete="current-password" />
+                    <label for="password">Password</label>
+                </div>
+
+                <button type="submit" class="btn-submit" id="submitBtn">
+                    <span class="btn-text">Sign In →</span>
+                    <div class="spinner"></div>
+                </button>
+
+                <div class="message" id="msg"></div>
+            </form>
+
+            <p class="register-link">New to Kodbank? <a href="register.html">Create Account</a></p>
+            <div class="secure-note">🔐 Your connection is fully encrypted</div>
+        </div>
+    </div>
+
+    <script>
+        const API = 'http://localhost:5000';
+
+        document.getElementById('loginForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const btn = document.getElementById('submitBtn');
+            const msg = document.getElementById('msg');
+
+            const username = document.getElementById('username').value.trim();
+            const password = document.getElementById('password').value;
+
+            if (!username || !password) {
+                showMsg('Please enter both username and password.', 'error');
+                return;
+            }
+
+            btn.classList.add('loading');
+            btn.disabled = true;
+
+            try {
+                const res = await fetch(`${API}/api/auth/login`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    credentials: 'include',   // ← send & receive cookies
+                    body: JSON.stringify({ username, password })
+                });
+                const data = await res.json();
+
+                if (res.ok && data.success) {
+                    showMsg('✅ Login successful! Loading dashboard…', 'success');
+                    // Store username in sessionStorage for greeting
+                    sessionStorage.setItem('kb_user', data.user.username);
+                    setTimeout(() => { window.location.href = 'dashboard.html'; }, 1200);
+                } else {
+                    showMsg(data.message || 'Invalid credentials.', 'error');
+                }
+            } catch (err) {
+                showMsg('⚠️ Could not connect to server. Make sure backend is running.', 'error');
+            } finally {
+                btn.classList.remove('loading');
+                btn.disabled = false;
+            }
+        });
+
+        function showMsg(text, type) {
+            const msg = document.getElementById('msg');
+            msg.textContent = text;
+            msg.className = 'message ' + type;
+            msg.style.display = 'block';
+        }
+    </script>
+</body>
+
+</html>

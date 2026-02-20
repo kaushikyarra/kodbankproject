@@ -1,0 +1,17 @@
+# Dependencies
+node_modules/
+
+# Environment variables (keep secret)
+.env
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+npm-debug.log*
+
+# Temp / debug scripts
+backend/check_schema.js
+backend/setup_db.js
